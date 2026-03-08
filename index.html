@@ -6,374 +6,245 @@
     <title>AI 导航 Pro - 探索未来智能工具</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        primary: '#3B82F6', secondary: '#10B981', accent: '#8B5CF6',
-                        dark: '#111827', light: '#F3F4F6'
+                        primary: '#3B82F6', secondary: '#10B981', accent: '#8B5CF6'
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s, color 0.3s; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; transition: all 0.3s; }
         .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
         .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .dark .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%); }
-        .search-focus:focus { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
         .dark body { background-color: #0f172a; color: #e5e7eb; }
         .dark .card-bg { background-color: #1e293b; border-color: #334155; }
         .dark input { background-color: #1e293b; border-color: #334155; color: #e5e7eb; }
-        .dark ::-webkit-scrollbar-track { background: #1e293b; }
-        .dark ::-webkit-scrollbar-thumb { background: #475569; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
-
-    <!-- 顶部导航栏 -->
+<body class="bg-gray-50 text-gray-800">
     <nav class="gradient-bg text-white py-4 px-4 shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="p-2 bg-white/20 rounded-full backdrop-blur-sm">
-                    <i class="fa-solid fa-robot text-2xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold">AI 导航 Pro</h1>
-                    <p class="text-xs text-blue-200">探索未来智能工具</p>
-                </div>
+                <div class="p-2 bg-white/20 rounded-full"><i class="fa-solid fa-robot text-2xl"></i></div>
+                <div><h1 class="text-xl font-bold">AI 导航 Pro</h1><p class="text-xs text-blue-200">100+ 精选 AI 工具</p></div>
             </div>
-            <div class="flex items-center space-x-4">
-                <button id="themeToggle" class="p-2 rounded-full hover:bg-white/20 transition-colors">
-                    <i class="fa-solid fa-moon"></i>
-                </button>
-                <a href="https://github.com" target="_blank" class="p-2 rounded-full hover:bg-white/20 transition-colors">
-                    <i class="fa-brands fa-github text-xl"></i>
-                </a>
-            </div>
+            <button id="themeToggle" class="p-2 rounded-full hover:bg-white/20"><i class="fa-solid fa-moon"></i></button>
         </div>
     </nav>
-
-    <!-- Hero 区域 -->
     <header class="gradient-bg text-white py-12 px-4">
         <div class="max-w-7xl mx-auto text-center">
             <h2 class="text-3xl md:text-4xl font-bold mb-4">发现全球最棒的 AI 工具</h2>
-            <p class="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
-                精选 <span id="totalCount" class="font-bold text-white">0</span> 款人工智能应用，助力效率飞跃
-            </p>
-            
-            <!-- 搜索框 -->
+            <p class="text-lg text-blue-100 mb-8">精选 <span id="totalCount" class="font-bold">0</span> 款人工智能应用</p>
             <div class="relative max-w-2xl mx-auto">
-                <input type="text" id="searchInput" 
-                    class="w-full py-4 px-6 pl-12 rounded-full text-gray-800 text-lg shadow-xl search-focus outline-none transition-all dark:text-gray-800"
-                    placeholder="搜索工具、描述、分类...">
+                <input type="text" id="searchInput" class="w-full py-4 px-6 pl-12 rounded-full text-gray-800 text-lg shadow-xl outline-none" placeholder="搜索工具、描述...">
                 <i class="fa-solid fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl"></i>
-            </div>
-
-            <!-- 统计信息 -->
-            <div class="flex flex-wrap justify-center gap-4 mt-8">
-                <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">
-                    <i class="fa-solid fa-layer-group mr-2"></i><span id="categoryCount">0</span> 个分类
-                </div>
-                <div class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm">
-                    <i class="fa-solid fa-star mr-2"></i><span id="favCount">0</span> 个收藏
-                </div>
             </div>
         </div>
     </header>
-
-    <!-- 主体内容 -->
     <main class="max-w-7xl mx-auto px-4 py-8">
-        <!-- 分类导航 -->
-        <div id="categoryNav" class="flex flex-wrap justify-center gap-2 mb-8 overflow-x-auto pb-2">
-            <button class="category-btn active px-5 py-2 rounded-full bg-blue-600 text-white font-medium shadow-md hover:bg-blue-700 transition-colors whitespace-nowrap" data-category="all">
-                <i class="fa-solid fa-grid-2 mr-1"></i>全部
-            </button>
-            <button class="category-btn px-5 py-2 rounded-full bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-100 transition-colors border border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700" data-category="llm">
-                <i class="fa-solid fa-message mr-1"></i>大语言模型
-            </button>
-            <button class="category-btn px-5 py-2 rounded-full bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-100 transition-colors border border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700" data-category="image">
-                <i class="fa-solid fa-paintbrush mr-1"></i>图像生成
-            </button>
-            <button class="category-btn px-5 py-2 rounded-full bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-100 transition-colors border border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700" data-category="code">
-                <i class="fa-solid fa-code mr-1"></i>编程开发
-            </button>
-            <button class="category-btn px-5 py-2 rounded-full bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-100 transition-colors border border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700" data-category="audio">
-                <i class="fa-solid fa-microphone-lines mr-1"></i>语音音频
-            </button>
-            <button class="category-btn px-5 py-2 rounded-full bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-100 transition-colors border border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700" data-category="video">
-                <i class="fa-solid fa-video mr-1"></i>视频制作
-            </button>
-            <button class="category-btn px-5 py-2 rounded-full bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-100 transition-colors border border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700" data-category="productivity">
-                <i class="fa-solid fa-briefcase mr-1"></i>办公效率
-            </button>
-            <button class="category-btn px-5 py-2 rounded-full bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-100 transition-colors border border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700" data-category="writing">
-                <i class="fa-solid fa-pen-nib mr-1"></i>写作助手
-            </button>
-            <button class="category-btn px-5 py-2 rounded-full bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-100 transition-colors border border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700" data-category="3d">
-                <i class="fa-solid fa-cube mr-1"></i>3D 设计
-            </button>
-            <button class="category-btn px-5 py-2 rounded-full bg-white text-gray-600 font-medium shadow-sm hover:bg-gray-100 transition-colors border border-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700" data-category="fav">
-                <i class="fa-solid fa-star mr-1"></i>我的收藏
-            </button>
-        </div>
-
-        <!-- 排序选项 -->
-        <div class="flex justify-end mb-4">
-            <select id="sortSelect" class="px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200">
-                <option value="default">默认排序</option>
-                <option value="name">名称排序</option>
-                <option value="fav">收藏最多</option>
-            </select>
-        </div>
-
-        <!-- 工具列表容器 -->
-        <div id="toolsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- 动态生成 -->
-        </div>
-
-        <!-- 无结果提示 -->
-        <div id="noResult" class="hidden text-center py-20">
-            <i class="fa-regular fa-face-frown text-6xl text-gray-300 mb-4"></i>
-            <p class="text-xl text-gray-500">未找到相关工具，试试其他关键词？</p>
-        </div>
+        <div id="categoryNav" class="flex flex-wrap justify-center gap-2 mb-8"></div>
+        <div id="toolsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </main>
-
-    <!-- 页脚 -->
-    <footer class="bg-white border-t border-gray-200 py-8 mt-12 dark:bg-gray-800 dark:border-gray-700">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500">
-            <p>&copy; 2026 AI 导航 Pro。由技术专家助手构建。</p>
-            <p class="text-sm mt-2">发现好工具？欢迎推荐添加</p>
-        </div>
+    <footer class="bg-white border-t py-8 mt-12 text-center text-gray-500 dark:bg-gray-800 dark:border-gray-700">
+        <p>© 2026 AI 导航 Pro</p>
     </footer>
-
     <script>
-        // ================= 数据配置区 =================
         const toolsData = [
-            // LLM
-            { name: "ChatGPT", url: "https://chat.openai.com", icon: "fa-solid fa-message", category: "llm", desc: "OpenAI 出品，现象级大语言模型，对话写作编程无所不能。", color: "text-green-500", bg: "bg-green-50" },
-            { name: "Claude", url: "https://claude.ai", icon: "fa-solid fa-robot", category: "llm", desc: "Anthropic 出品，安全、长上下文、逻辑推理强。", color: "text-orange-500", bg: "bg-orange-50" },
-            { name: "Perplexity", url: "https://perplexity.ai", icon: "fa-solid fa-magnifying-glass", category: "llm", desc: "AI 搜索引擎，提供带引用的实时答案。", color: "text-teal-500", bg: "bg-teal-50" },
-            { name: "Gemini", url: "https://gemini.google.com", icon: "fa-brands fa-google", category: "llm", desc: "Google 出品，多模态能力强，集成 Google 生态。", color: "text-blue-500", bg: "bg-blue-50" },
-            { name: "文心一言", url: "https://yiyan.baidu.com", icon: "fa-solid fa-brain", category: "llm", desc: "百度出品，中文理解优秀，生态整合好。", color: "text-purple-500", bg: "bg-purple-50" },
-            
-            // Image
-            { name: "Midjourney", url: "https://midjourney.com", icon: "fa-solid fa-paintbrush", category: "image", desc: "最强 AI 绘画，艺术感强，Discord 使用。", color: "text-blue-500", bg: "bg-blue-50" },
-            { name: "DALL-E 3", url: "https://openai.com/dall-e-3", icon: "fa-solid fa-palette", category: "image", desc: "OpenAI 出品，理解力极强，集成于 Bing。", color: "text-green-600", bg: "bg-green-50" },
-            { name: "Stable Diffusion", url: "https://stability.ai", icon: "fa-solid fa-image", category: "image", desc: "开源免费，本地部署首选，可控性高。", color: "text-purple-500", bg: "bg-purple-50" },
-            { name: "Leonardo.ai", url: "https://leonardo.ai", icon: "fa-solid fa-pen-fancy", category: "image", desc: "游戏美术设计利器，模型丰富。", color: "text-pink-500", bg: "bg-pink-50" },
-            
-            // Code
-            { name: "GitHub Copilot", url: "https://github.com/features/copilot", icon: "fa-brands fa-github", category: "code", desc: "微软+OpenAI，代码补全神器。", color: "text-gray-800", bg: "bg-gray-100" },
-            { name: "Cursor", url: "https://cursor.sh", icon: "fa-solid fa-code", category: "code", desc: "AI 原生编辑器，全项目理解，对话式编程。", color: "text-blue-600", bg: "bg-blue-50" },
-            { name: "Hugging Face", url: "https://huggingface.co", icon: "fa-brands fa-huggingface", category: "code", desc: "AI 界 GitHub，海量开源模型。", color: "text-orange-600", bg: "bg-orange-50" },
-            { name: "Replit", url: "https://replit.com", icon: "fa-solid fa-laptop-code", category: "code", desc: "在线 IDE，AI 辅助编程，适合学习。", color: "text-red-500", bg: "bg-red-50" },
-            
-            // Audio
-            { name: "ElevenLabs", url: "https://elevenlabs.io", icon: "fa-solid fa-microphone-lines", category: "audio", desc: "最逼真 AI 语音，支持多语言情感。", color: "text-red-500", bg: "bg-red-50" },
-            { name: "Suno AI", url: "https://suno.ai", icon: "fa-solid fa-music", category: "audio", desc: "AI 音乐生成，文字创作完整歌曲。", color: "text-indigo-500", bg: "bg-indigo-50" },
-            { name: "Adobe Podcast", url: "https://podcast.adobe.com", icon: "fa-solid fa-sliders", category: "audio", desc: "AI 音频增强，降噪、增强一键完成。", color: "text-purple-600", bg: "bg-purple-50" },
-            
-            // Video
-            { name: "Runway Gen-2", url: "https://runwayml.com", icon: "fa-solid fa-video", category: "video", desc: "AI 视频生成领跑者，文生视频强大。", color: "text-pink-500", bg: "bg-pink-50" },
-            { name: "HeyGen", url: "https://heygen.com", icon: "fa-solid fa-user-astronaut", category: "video", desc: "AI 数字人视频，口型同步多语言。", color: "text-cyan-500", bg: "bg-cyan-50" },
-            { name: "Pika Labs", url: "https://pika.art", icon: "fa-solid fa-film", category: "video", desc: "新兴视频生成工具，效果惊艳。", color: "text-yellow-500", bg: "bg-yellow-50" },
-            { name: "Descript", url: "https://descript.com", icon: "fa-solid fa-file-video", category: "video", desc: "AI 视频编辑，像编辑文档一样剪视频。", color: "text-gray-600", bg: "bg-gray-50" },
-            
-            // Productivity
-            { name: "Notion AI", url: "https://notion.so", icon: "fa-brands fa-notion", category: "productivity", desc: "Notion 内置 AI，辅助写作总结。", color: "text-gray-700", bg: "bg-gray-50" },
-            { name: "Gamma", url: "https://gamma.app", icon: "fa-solid fa-presentation-screen", category: "productivity", desc: "AI 生成 PPT，一键生成精美幻灯片。", color: "text-yellow-600", bg: "bg-yellow-50" },
-            { name: "Otter.ai", url: "https://otter.ai", icon: "fa-solid fa-microphone", category: "productivity", desc: "AI 会议记录，实时转录生成纪要。", color: "text-blue-500", bg: "bg-blue-50" },
-            { name: "Zapier AI", url: "https://zapier.com", icon: "fa-solid fa-bolt", category: "productivity", desc: "自动化流程 + AI，连接万千应用。", color: "text-orange-500", bg: "bg-orange-50" },
-            
-            // Writing
-            { name: "Jasper", url: "https://jasper.ai", icon: "fa-solid fa-pen-nib", category: "writing", desc: "专业营销文案 AI，模板丰富。", color: "text-red-500", bg: "bg-red-50" },
-            { name: "Grammarly", url: "https://grammarly.com", icon: "fa-solid fa-spell-check", category: "writing", desc: "AI 语法检查，写作润色神器。", color: "text-green-500", bg: "bg-green-50" },
-            { name: "Copy.ai", url: "https://copy.ai", icon: "fa-solid fa-copy", category: "writing", desc: "快速生成营销文案，多模板选择。", color: "text-blue-500", bg: "bg-blue-50" },
-            
-            // 3D
-            { name: "Luma AI", url: "https://lumalabs.ai", icon: "fa-solid fa-cube", category: "3d", desc: "3D 生成模型，文字/图片转 3D。", color: "text-purple-500", bg: "bg-purple-50" },
-            { name: "Spline", url: "https://spline.design", icon: "fa-solid fa-shapes", category: "3d", desc: "在线 3D 设计工具，AI 辅助建模。", color: "text-pink-500", bg: "bg-pink-50" },
-            { name: "Kaedim", url: "https://kaedim3d.com", icon: "fa-solid fa-box", category: "3d", desc: "2D 转 3D 快速生成，游戏开发利器。", color: "text-indigo-500", bg: "bg-indigo-50" }
+            // LLM (15 个)
+            { name: "ChatGPT", url: "https://chat.openai.com", icon: "fa-message", category: "llm", desc: "OpenAI 出品，现象级大语言模型", color: "text-green-500", bg: "bg-green-50" },
+            { name: "Claude", url: "https://claude.ai", icon: "fa-robot", category: "llm", desc: "Anthropic 出品，安全、长上下文", color: "text-orange-500", bg: "bg-orange-50" },
+            { name: "Gemini", url: "https://gemini.google.com", icon: "fa-google", category: "llm", desc: "Google 出品，多模态能力强", color: "text-blue-500", bg: "bg-blue-50" },
+            { name: "Perplexity", url: "https://perplexity.ai", icon: "fa-magnifying-glass", category: "llm", desc: "AI 搜索引擎，带引用答案", color: "text-teal-500", bg: "bg-teal-50" },
+            { name: "文心一言", url: "https://yiyan.baidu.com", icon: "fa-brain", category: "llm", desc: "百度出品，中文理解优秀", color: "text-purple-500", bg: "bg-purple-50" },
+            { name: "通义千问", url: "https://tongyi.aliyun.com", icon: "fa-comments", category: "llm", desc: "阿里出品，多语言支持", color: "text-red-500", bg: "bg-red-50" },
+            { name: "Kimi", url: "https://kimi.moonshot.cn", icon: "fa-moon", category: "llm", desc: "月之暗面，超长上下文", color: "text-indigo-500", bg: "bg-indigo-50" },
+            { name: "智谱清言", url: "https://chatglm.cn", icon: "fa-comments", category: "llm", desc: "清华智谱，国产大模型", color: "text-blue-600", bg: "bg-blue-50" },
+            { name: "讯飞星火", url: "https://xinghuo.xfyun.cn", icon: "fa-fire", category: "llm", desc: "科大讯飞，语音能力强", color: "text-orange-600", bg: "bg-orange-50" },
+            { name: "360 智脑", url: "https://brain.360.cn", icon: "fa-brain", category: "llm", desc: "360 出品，安全知识库", color: "text-green-600", bg: "bg-green-50" },
+            { name: "Character.AI", url: "https://character.ai", icon: "fa-user-astronaut", category: "llm", desc: "角色扮演对话 AI", color: "text-pink-500", bg: "bg-pink-50" },
+            { name: "Cohere", url: "https://cohere.com", icon: "fa-cube", category: "llm", desc: "企业级大模型服务", color: "text-red-600", bg: "bg-red-50" },
+            { name: "Claude Desktop", url: "https://claude.ai", icon: "fa-desktop", category: "llm", desc: "桌面版 Claude", color: "text-orange-500", bg: "bg-orange-50" },
+            { name: "Poe", url: "https://poe.com", icon: "fa-comments", category: "llm", desc: "多模型聚合平台", color: "text-teal-600", bg: "bg-teal-50" },
+            { name: "HuggingChat", url: "https://huggingface.co/chat", icon: "fa-comment-dots", category: "llm", desc: "HuggingFace 开源聊天", color: "text-yellow-600", bg: "bg-yellow-50" },
+            // Image (12 个)
+            { name: "Midjourney", url: "https://midjourney.com", icon: "fa-paintbrush", category: "image", desc: "最强 AI 绘画，艺术感强", color: "text-blue-500", bg: "bg-blue-50" },
+            { name: "DALL-E 3", url: "https://openai.com/dall-e-3", icon: "fa-palette", category: "image", desc: "OpenAI 出品，理解力强", color: "text-green-600", bg: "bg-green-50" },
+            { name: "Stable Diffusion", url: "https://stability.ai", icon: "fa-image", category: "image", desc: "开源免费，本地部署", color: "text-purple-500", bg: "bg-purple-50" },
+            { name: "Leonardo.ai", url: "https://leonardo.ai", icon: "fa-pen-fancy", category: "image", desc: "游戏美术设计利器", color: "text-pink-500", bg: "bg-pink-50" },
+            { name: "文心一格", url: "https://yige.baidu.com", icon: "fa-paint-brush", category: "image", desc: "百度 AI 绘画", color: "text-blue-600", bg: "bg-blue-50" },
+            { name: "通义万相", url: "https://wanxiang.aliyun.com", icon: "fa-spray-can", category: "image", desc: "阿里 AI 绘画", color: "text-red-500", bg: "bg-red-50" },
+            { name: "DreamStudio", url: "https://dreamstudio.ai", icon: "fa-film", category: "image", desc: "Stability AI 官方平台", color: "text-indigo-500", bg: "bg-indigo-50" },
+            { name: "Craiyon", url: "https://craiyon.com", icon: "fa-pencil", category: "image", desc: "免费 AI 绘画工具", color: "text-yellow-500", bg: "bg-yellow-50" },
+            { name: "Artbreeder", url: "https://artbreeder.com", icon: "fa-seedling", category: "image", desc: "基因混合创作", color: "text-green-500", bg: "bg-green-50" },
+            { name: "Runway", url: "https://runwayml.com", icon: "fa-video", category: "image", desc: "AI 视频生成", color: "text-pink-600", bg: "bg-pink-50" },
+            { name: "Canva AI", url: "https://canva.com", icon: "fa-pen-nib", category: "image", desc: "设计工具 AI 化", color: "text-teal-500", bg: "bg-teal-50" },
+            { name: "Bing Image Creator", url: "https://bing.com/create", icon: "fa-microsoft", category: "image", desc: "微软 DALL-E 3 集成", color: "text-blue-700", bg: "bg-blue-50" },
+            // Code (12 个)
+            { name: "GitHub Copilot", url: "https://github.com/features/copilot", icon: "fa-github", category: "code", desc: "代码补全神器", color: "text-gray-800", bg: "bg-gray-100" },
+            { name: "Cursor", url: "https://cursor.sh", icon: "fa-code", category: "code", desc: "AI 原生编辑器", color: "text-blue-600", bg: "bg-blue-50" },
+            { name: "Hugging Face", url: "https://huggingface.co", icon: "fa-huggingface", category: "code", desc: "AI 界 GitHub", color: "text-orange-600", bg: "bg-orange-50" },
+            { name: "Replit", url: "https://replit.com", icon: "fa-laptop-code", category: "code", desc: "在线 IDE", color: "text-red-500", bg: "bg-red-50" },
+            { name: "Codeium", url: "https://codeium.com", icon: "fa-code", category: "code", desc: "免费 AI 编程助手", color: "text-purple-600", bg: "bg-purple-50" },
+            { name: "Tabnine", url: "https://tabnine.com", icon: "fa-keyboard", category: "code", desc: "本地化代码补全", color: "text-blue-500", bg: "bg-blue-50" },
+            { name: "CodeGeeX", url: "https://codegeex.cn", icon: "fa-code-branch", category: "code", desc: "国产开源编程助手", color: "text-green-600", bg: "bg-green-50" },
+            { name: "Amazon CodeWhisperer", url: "https://aws.amazon.com/cn/codewhisperer", icon: "fa-aws", category: "code", desc: "AWS 代码助手", color: "text-orange-500", bg: "bg-orange-50" },
+            { name: "Sourcegraph Cody", url: "https://sourcegraph.com/cody", icon: "fa-search", category: "code", desc: "代码搜索 AI", color: "text-red-600", bg: "bg-red-50" },
+            { name: "Phind", url: "https://phind.com", icon: "fa-question", category: "code", desc: "开发者 AI 搜索", color: "text-blue-700", bg: "bg-blue-50" },
+            { name: "Blackbox AI", url: "https://blackbox.ai", icon: "fa-box", category: "code", desc: "代码生成 AI", color: "text-gray-700", bg: "bg-gray-50" },
+            { name: "CodeComplete", url: "https://codecomplete.ai", icon: "fa-check-circle", category: "code", desc: "智能代码补全", color: "text-green-500", bg: "bg-green-50" },
+            // Audio (10 个)
+            { name: "ElevenLabs", url: "https://elevenlabs.io", icon: "fa-microphone-lines", category: "audio", desc: "最逼真 AI 语音", color: "text-red-500", bg: "bg-red-50" },
+            { name: "Suno AI", url: "https://suno.ai", icon: "fa-music", category: "audio", desc: "AI 音乐生成", color: "text-indigo-500", bg: "bg-indigo-50" },
+            { name: "Adobe Podcast", url: "https://podcast.adobe.com", icon: "fa-sliders", category: "audio", desc: "AI 音频增强", color: "text-purple-600", bg: "bg-purple-50" },
+            { name: "Descript", url: "https://descript.com", icon: "fa-file-audio", category: "audio", desc: "AI 音频编辑", color: "text-blue-500", bg: "bg-blue-50" },
+            { name: "Murf AI", url: "https://murf.ai", icon: "fa-microphone", category: "audio", desc: "专业语音合成", color: "text-green-600", bg: "bg-green-50" },
+            { name: "Play.ht", url: "https://play.ht", icon: "fa-play", category: "audio", desc: "文本转语音", color: "text-red-600", bg: "bg-red-50" },
+            { name: "Resemble AI", url: "https://resemble.ai", icon: "fa-wave-square", category: "audio", desc: "语音克隆", color: "text-blue-600", bg: "bg-blue-50" },
+            { name: "Lovo AI", url: "https://lovo.ai", icon: "fa-headset", category: "audio", desc: "多语言语音合成", color: "text-pink-500", bg: "bg-pink-50" },
+            { name: "Speechify", url: "https://speechify.com", icon: "fa-book-open", category: "audio", desc: "文本朗读", color: "text-orange-500", bg: "bg-orange-50" },
+            { name: "Krisp", url: "https://krisp.ai", icon: "fa-headphones", category: "audio", desc: "AI 降噪", color: "text-teal-500", bg: "bg-teal-50" },
+            // Video (12 个)
+            { name: "Runway Gen-2", url: "https://runwayml.com", icon: "fa-video", category: "video", desc: "AI 视频生成领跑者", color: "text-pink-500", bg: "bg-pink-50" },
+            { name: "HeyGen", url: "https://heygen.com", icon: "fa-user-astronaut", category: "video", desc: "AI 数字人视频", color: "text-cyan-500", bg: "bg-cyan-50" },
+            { name: "Pika Labs", url: "https://pika.art", icon: "fa-film", category: "video", desc: "新兴视频生成", color: "text-yellow-500", bg: "bg-yellow-50" },
+            { name: "Descript", url: "https://descript.com", icon: "fa-file-video", category: "video", desc: "AI 视频编辑", color: "text-gray-600", bg: "bg-gray-50" },
+            { name: "Synthesia", url: "https://synthesia.io", icon: "fa-user-circle", category: "video", desc: "AI 虚拟主播", color: "text-blue-600", bg: "bg-blue-50" },
+            { name: "InVideo", url: "https://invideo.io", icon: "fa-tv", category: "video", desc: "AI 视频制作", color: "text-red-500", bg: "bg-red-50" },
+            { name: "Pictory", url: "https://pictory.ai", icon: "fa-photo-video", category: "video", desc: "文字转视频", color: "text-purple-500", bg: "bg-purple-50" },
+            { name: "Lumen5", url: "https://lumen5.com", icon: "fa-lightbulb", category: "video", desc: "博客转视频", color: "text-teal-500", bg: "bg-teal-50" },
+            { name: "Veed.io", url: "https://veed.io", icon: "fa-play-circle", category: "video", desc: "在线视频编辑", color: "text-green-500", bg: "bg-green-50" },
+            { name: "Kapwing", url: "https://kapwing.com", icon: "fa-scissors", category: "video", desc: "协作视频编辑", color: "text-orange-500", bg: "bg-orange-50" },
+            { name: "Fliki", url: "https://fliki.ai", icon: "fa-magic", category: "video", desc: "AI 视频生成", color: "text-indigo-500", bg: "bg-indigo-50" },
+            { name: "DeepBrain AI", url: "https://deepbrain.io", icon: "fa-brain", category: "video", desc: "AI 虚拟人", color: "text-blue-700", bg: "bg-blue-50" },
+            // Productivity (12 个)
+            { name: "Notion AI", url: "https://notion.so", icon: "fa-notion", category: "productivity", desc: "Notion 内置 AI", color: "text-gray-700", bg: "bg-gray-50" },
+            { name: "Gamma", url: "https://gamma.app", icon: "fa-presentation-screen", category: "productivity", desc: "AI 生成 PPT", color: "text-yellow-600", bg: "bg-yellow-50" },
+            { name: "Otter.ai", url: "https://otter.ai", icon: "fa-microphone", category: "productivity", desc: "AI 会议记录", color: "text-blue-500", bg: "bg-blue-50" },
+            { name: "Zapier AI", url: "https://zapier.com", icon: "fa-bolt", category: "productivity", desc: "自动化流程+AI", color: "text-orange-500", bg: "bg-orange-50" },
+            { name: "Mem", url: "https://mem.ai", icon: "fa-brain", category: "productivity", desc: "AI 笔记", color: "text-purple-500", bg: "bg-purple-50" },
+            { name: "Rewind AI", url: "https://rewind.ai", icon: "fa-rotate-left", category: "productivity", desc: "个人 AI 助理", color: "text-gray-600", bg: "bg-gray-50" },
+            { name: "Motion", url: "https://motion.app", icon: "fa-calendar-check", category: "productivity", desc: "AI 日程管理", color: "text-blue-600", bg: "bg-blue-50" },
+            { name: "Superhuman", url: "https://superhuman.com", icon: "fa-envelope", category: "productivity", desc: "AI 邮件客户端", color: "text-red-600", bg: "bg-red-50" },
+            { name: "Fireflies.ai", url: "https://fireflies.ai", icon: "fa-fire", category: "productivity", desc: "会议助手", color: "text-yellow-500", bg: "bg-yellow-50" },
+            { name: "Taskade", url: "https://taskade.com", icon: "fa-tasks", category: "productivity", desc: "AI 任务管理", color: "text-green-500", bg: "bg-green-50" },
+            { name: "ClickUp AI", url: "https://clickup.com", icon: "fa-check-double", category: "productivity", desc: "项目管理 AI", color: "text-teal-500", bg: "bg-teal-50" },
+            { name: "Trello AI", url: "https://trello.com", icon: "fa-columns", category: "productivity", desc: "看板 AI 助手", color: "text-blue-700", bg: "bg-blue-50" },
+            // Writing (10 个)
+            { name: "Jasper", url: "https://jasper.ai", icon: "fa-pen-nib", category: "writing", desc: "专业营销文案", color: "text-red-500", bg: "bg-red-50" },
+            { name: "Grammarly", url: "https://grammarly.com", icon: "fa-spell-check", category: "writing", desc: "AI 语法检查", color: "text-green-500", bg: "bg-green-50" },
+            { name: "Copy.ai", url: "https://copy.ai", icon: "fa-copy", category: "writing", desc: "营销文案生成", color: "text-blue-500", bg: "bg-blue-50" },
+            { name: "Writesonic", url: "https://writesonic.com", icon: "fa-pen", category: "writing", desc: "内容创作 AI", color: "text-purple-500", bg: "bg-purple-50" },
+            { name: "Rytr", url: "https://rytr.me", icon: "fa-feather", category: "writing", desc: "写作助手", color: "text-teal-500", bg: "bg-teal-50" },
+            { name: "Anyword", url: "https://anyword.com", icon: "fa-bullhorn", category: "writing", desc: "营销文案优化", color: "text-red-600", bg: "bg-red-50" },
+            { name: "Sudowrite", url: "https://sudowrite.com", icon: "fa-book", category: "writing", desc: "小说创作 AI", color: "text-indigo-500", bg: "bg-indigo-50" },
+            { name: "Wordtune", url: "https://wordtune.com", icon: "fa-exchange-alt", category: "writing", desc: "句子改写", color: "text-blue-600", bg: "bg-blue-50" },
+            { name: "QuillBot", url: "https://quillbot.com", icon: "fa-eraser", category: "writing", desc: "改写润色", color: "text-green-600", bg: "bg-green-50" },
+            { name: "Hemingway", url: "https://hemingwayapp.com", icon: "fa-glass-whiskey", category: "writing", desc: "写作简洁化", color: "text-yellow-600", bg: "bg-yellow-50" },
+            // 3D (8 个)
+            { name: "Luma AI", url: "https://lumalabs.ai", icon: "fa-cube", category: "3d", desc: "3D 生成模型", color: "text-purple-500", bg: "bg-purple-50" },
+            { name: "Spline", url: "https://spline.design", icon: "fa-shapes", category: "3d", desc: "在线 3D 设计", color: "text-pink-500", bg: "bg-pink-50" },
+            { name: "Kaedim", url: "https://kaedim3d.com", icon: "fa-box", category: "3d", desc: "2D 转 3D", color: "text-indigo-500", bg: "bg-indigo-50" },
+            { name: "Masterpiece Studio", url: "https://masterpiecestudio.com", icon: "fa-vr-cardboard", category: "3d", desc: "VR 3D 创作", color: "text-blue-500", bg: "bg-blue-50" },
+            { name: "Meshy", url: "https://meshy.ai", icon: "fa-th-large", category: "3d", desc: "AI 3D 建模", color: "text-teal-500", bg: "bg-teal-50" },
+            { name: "Tripo AI", url: "https://tripo.ai", icon: "fa-plane", category: "3d", desc: "快速 3D 生成", color: "text-red-500", bg: "bg-red-50" },
+            { name: "3D AI Studio", url: "https://3dai.studio", icon: "fa-cubes", category: "3d", desc: "3D 模型库", color: "text-green-500", bg: "bg-green-50" },
+            { name: "Kiri Engine", url: "https://kiriengine.com", icon: "fa-camera", category: "3d", desc: "3D 扫描", color: "text-orange-500", bg: "bg-orange-50" },
+            // Research (8 个)
+            { name: "Consensus", url: "https://consensus.app", icon: "fa-flask", category: "research", desc: "AI 科研搜索", color: "text-blue-600", bg: "bg-blue-50" },
+            { name: "Elicit", url: "https://elicit.org", icon: "fa-lightbulb", category: "research", desc: "研究助手", color: "text-red-500", bg: "bg-red-50" },
+            { name: "Scite.ai", url: "https://scite.ai", icon: "fa-quote-right", category: "research", desc: "引用分析", color: "text-purple-500", bg: "bg-purple-50" },
+            { name: "ResearchRabbit", url: "https://researchrabbit.ai", icon: "fa-rabbit", category: "research", desc: "文献发现", color: "text-green-600", bg: "bg-green-50" },
+            { name: "Semantic Scholar", url: "https://semanticscholar.org", icon: "fa-graduation-cap", category: "research", desc: "语义学术搜索", color: "text-teal-500", bg: "bg-teal-50" },
+            { name: "Iris.ai", url: "https://iris.ai", icon: "fa-eye", category: "research", desc: "研究地图", color: "text-indigo-500", bg: "bg-indigo-50" },
+            { name: "Scholarcy", url: "https://scholarcy.com", icon: "fa-file-alt", category: "research", desc: "论文摘要", color: "text-orange-500", bg: "bg-orange-50" },
+            { name: "Typeset", url: "https://typeset.io", icon: "fa-file-contract", category: "research", desc: "论文排版", color: "text-blue-500", bg: "bg-blue-50" }
         ];
 
-        // ================= 状态管理 =================
         let currentCategory = 'all';
-        let currentSort = 'default';
-        let favorites = JSON.parse(localStorage.getItem('aiNavFavorites')) || [];
-        let isDarkMode = localStorage.getItem('aiNavDarkMode') === 'true';
+        const categories = [
+            { id: 'all', name: '全部', icon: 'fa-grid-2' },
+            { id: 'llm', name: '大语言模型', icon: 'fa-message' },
+            { id: 'image', name: '图像生成', icon: 'fa-paintbrush' },
+            { id: 'code', name: '编程开发', icon: 'fa-code' },
+            { id: 'audio', name: '语音音频', icon: 'fa-microphone-lines' },
+            { id: 'video', name: '视频制作', icon: 'fa-video' },
+            { id: 'productivity', name: '办公效率', icon: 'fa-briefcase' },
+            { id: 'writing', name: '写作助手', icon: 'fa-pen-nib' },
+            { id: '3d', name: '3D 设计', icon: 'fa-cube' },
+            { id: 'research', name: '科研学术', icon: 'fa-flask' }
+        ];
 
-        // ================= DOM 元素 =================
-        const container = document.getElementById('toolsContainer');
-        const searchInput = document.getElementById('searchInput');
-        const noResult = document.getElementById('noResult');
-        const categoryBtns = document.querySelectorAll('.category-btn');
-        const sortSelect = document.getElementById('sortSelect');
-        const themeToggle = document.getElementById('themeToggle');
-
-        // 初始化深色模式
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
-            themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
-        }
-
-        // ================= 核心函数 =================
-        function getCategoryName(cat) {
-            const map = {
-                'llm': '大语言模型', 'image': '图像生成', 'code': '编程开发',
-                'audio': '语音音频', 'video': '视频制作', 'productivity': '办公效率',
-                'writing': '写作助手', '3d': '3D 设计', 'fav': '我的收藏'
-            };
-            return map[cat] || cat;
-        }
-
-        function toggleFavorite(name) {
-            if (favorites.includes(name)) {
-                favorites = favorites.filter(fav => fav !== name);
-            } else {
-                favorites.push(name);
-            }
-            localStorage.setItem('aiNavFavorites', JSON.stringify(favorites));
-            updateStats();
-            if (currentCategory === 'fav') renderTools();
-            else {
-                // 重新渲染当前卡片以更新收藏图标
-                const allCards = document.querySelectorAll('.tool-card');
-                allCards.forEach(card => {
-                    const toolName = card.dataset.name;
-                    if (toolName === name) {
-                        const icon = card.querySelector('.fav-icon');
-                        if (icon) {
-                            icon.classList.toggle('fa-star', favorites.includes(name));
-                            icon.classList.toggle('fa-star', favorites.includes(name));
-                            icon.classList.toggle('text-yellow-400', favorites.includes(name));
-                            icon.classList.toggle('fa-star', favorites.includes(name));
-                        }
-                    }
-                });
-            }
-        }
-
-        function copyUrl(url, name) {
-            navigator.clipboard.writeText(url).then(() => {
-                alert(`已复制 ${name} 链接到剪贴板！`);
-            });
+        function renderCategoryNav() {
+            const nav = document.getElementById('categoryNav');
+            nav.innerHTML = categories.map(cat => 
+                `<button class="category-btn px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${cat.id === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-100 border dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700'}" data-category="${cat.id}">
+                    <i class="fa-solid ${cat.icon} mr-1"></i>${cat.name}
+                </button>`
+            ).join('');
         }
 
         function renderTools() {
-            container.innerHTML = '';
-            const query = searchInput.value.toLowerCase();
-            
-            let filtered = toolsData.filter(tool => {
-                const matchesSearch = tool.name.toLowerCase().includes(query) || tool.desc.toLowerCase().includes(query);
-                let matchesCategory = true;
-                
-                if (currentCategory === 'all') matchesCategory = true;
-                else if (currentCategory === 'fav') matchesCategory = favorites.includes(tool.name);
-                else matchesCategory = tool.category === currentCategory;
-                
+            const container = document.getElementById('toolsContainer');
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = toolsData.filter(t => {
+                const matchesSearch = t.name.toLowerCase().includes(query) || t.desc.toLowerCase().includes(query);
+                const matchesCategory = currentCategory === 'all' || t.category === currentCategory;
                 return matchesSearch && matchesCategory;
             });
 
-            // 排序
-            if (currentSort === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
-            else if (currentSort === 'fav') {
-                filtered.sort((a, b) => {
-                    const aFav = favorites.includes(a.name) ? 1 : 0;
-                    const bFav = favorites.includes(b.name) ? 1 : 0;
-                    return bFav - aFav;
-                });
-            }
-
-            if (filtered.length === 0) {
-                noResult.classList.remove('hidden');
-                return;
-            }
-            noResult.classList.add('hidden');
-
-            filtered.forEach(tool => {
-                const isFav = favorites.includes(tool.name);
-                const card = document.createElement('div');
-                card.className = `tool-card card-bg bg-white rounded-2xl p-6 shadow-sm border border-gray-100 card-hover flex flex-col h-full cursor-pointer group dark:bg-gray-800 dark:border-gray-700`;
-                card.dataset.name = tool.name;
-                
-                card.innerHTML = `
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-12 h-12 ${tool.bg} rounded-xl flex items-center justify-center ${tool.color} text-2xl group-hover:scale-110 transition-transform dark:bg-opacity-20">
-                            <i class="${tool.icon}"></i>
-                        </div>
-                        <div class="flex space-x-2">
-                            <button onclick="event.stopPropagation(); toggleFavorite('${tool.name}')" class="text-gray-300 hover:text-yellow-400 transition-colors ${isFav ? 'text-yellow-400' : ''}">
-                                <i class="fav-icon fa-solid ${isFav ? 'fa-star' : 'fa-star'} ${isFav ? 'text-yellow-400' : 'text-gray-300'}"></i>
-                            </button>
-                            <button onclick="event.stopPropagation(); copyUrl('${tool.url}', '${tool.name}')" class="text-gray-300 hover:text-blue-500 transition-colors">
-                                <i class="fa-regular fa-copy"></i>
-                            </button>
-                            <a href="${tool.url}" target="_blank" class="text-gray-300 hover:text-blue-500 transition-colors">
-                                <i class="fa-solid fa-arrow-up-right-from-square text-lg"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors dark:text-gray-100">${tool.name}</h3>
-                    <p class="text-gray-500 text-sm leading-relaxed flex-grow dark:text-gray-400">${tool.desc}</p>
-                    <div class="mt-4 pt-4 border-t border-gray-50 flex items-center justify-between dark:border-gray-700">
-                        <span class="text-xs font-medium px-2.5 py-1 rounded-md bg-gray-100 text-gray-600 capitalize dark:bg-gray-700 dark:text-gray-300">
-                            ${getCategoryName(tool.category)}
-                        </span>
-                        <span class="text-xs text-gray-400 group-hover:translate-x-1 transition-transform">访问 <i class="fa-solid fa-chevron-right text-[10px]"></i></span>
-                    </div>
-                `;
-                card.onclick = (e) => {
-                    if (!e.target.closest('button')) window.open(tool.url, '_blank');
-                };
-                container.appendChild(card);
-            });
-        }
-
-        function updateStats() {
             document.getElementById('totalCount').textContent = toolsData.length;
-            document.getElementById('categoryCount').textContent = new Set(toolsData.map(t => t.category)).size;
-            document.getElementById('favCount').textContent = favorites.length;
+            container.innerHTML = filtered.map(t => `
+                <div class="card-bg bg-white rounded-2xl p-6 shadow-sm border border-gray-100 card-hover flex flex-col h-full cursor-pointer dark:bg-gray-800 dark:border-gray-700" onclick="window.open('${t.url}', '_blank')">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 ${t.bg} ${t.color} rounded-xl flex items-center justify-center text-2xl hover:scale-110 transition-transform dark:bg-opacity-20">
+                            <i class="fa-solid ${t.icon}"></i>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-gray-300 hover:text-blue-500"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2 hover:text-blue-600 dark:text-gray-100">${t.name}</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed flex-grow dark:text-gray-400">${t.desc}</p>
+                    <div class="mt-4 pt-4 border-t border-gray-50 dark:border-gray-700">
+                        <span class="text-xs font-medium px-2.5 py-1 rounded-md bg-gray-100 text-gray-600 capitalize dark:bg-gray-700 dark:text-gray-300">${t.category.toUpperCase()}</span>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        // ================= 事件监听 =================
-        searchInput.addEventListener('input', renderTools);
-        
-        sortSelect.addEventListener('change', (e) => {
-            currentSort = e.target.value;
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCategoryNav();
             renderTools();
-        });
-
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                categoryBtns.forEach(b => {
+            
+            // 分类切换
+            document.getElementById('categoryNav').addEventListener('click', (e) => {
+                const btn = e.target.closest('.category-btn');
+                if (!btn) return;
+                document.querySelectorAll('.category-btn').forEach(b => {
                     b.classList.remove('bg-blue-600', 'text-white');
-                    b.classList.add('bg-white', 'text-gray-600', 'dark:bg-gray-800', 'dark:text-gray-300');
+                    b.classList.add('bg-white', 'text-gray-600');
                 });
-                btn.classList.remove('bg-white', 'text-gray-600', 'dark:bg-gray-800', 'dark:text-gray-300');
+                btn.classList.remove('bg-white', 'text-gray-600');
                 btn.classList.add('bg-blue-600', 'text-white');
                 currentCategory = btn.dataset.category;
                 renderTools();
             });
-        });
 
-        themeToggle.addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-            isDarkMode = document.documentElement.classList.contains('dark');
-            localStorage.setItem('aiNavDarkMode', isDarkMode);
-            themeToggle.innerHTML = isDarkMode ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-        });
+            // 搜索
+            document.getElementById('searchInput').addEventListener('input', renderTools);
 
-        // 初始化
-        updateStats();
-        renderTools();
+            // 深色模式
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+            });
+        });
     </script>
 </body>
 </html>
